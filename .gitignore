@@ -1,0 +1,82 @@
+# ============================================================
+# 在线发作检测项目 .gitignore
+# 目的：只推代码、文档、模型小参数；不推患者数据、大矩阵、编译产物
+# ============================================================
+
+# ---------- 患者/原始数据（绝对不要推） ----------
+*.mat
+*.mex
+*.mexw64
+*.mexw32
+*.h5
+*.hdf5
+
+# 但 04_模型参数 下的小模型参数例外（白名单）
+!04_模型参数/**/norm_params_fold*.mat
+!04_模型参数/fcm/**/*.mat
+
+# 患者原始 MAT、回放 txt
+data/
+raw_data/
+patient_data/
+*_data.txt
+*_data_hmy*.txt
+acc_data*.txt
+gyr_data*.txt
+emg_data*.txt
+
+# ---------- Python 产物 ----------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# 训练中间大结果（保留目录结构但不推 CSV 之外的东西）
+02_Python训练与后处理/svm/trainsvm_cv_results*/
+!02_Python训练与后处理/svm/trainsvm_cv_results*/
+!02_Python训练与后处理/svm/trainsvm_cv_results*/*.csv
+
+# ---------- 模型权重白名单/黑名单 ----------
+# w.npy / b.npy 很小（几十~几百字节），推上去
+*.joblib
+# 但 fold_* 下的 best_model.joblib 是 sklearn 完整模型，体积大且含训练样本信息，不推
+04_模型参数/svm_6_filter/fold_*/best_model.joblib
+04_模型参数/svm_6_filter/fold_*/base_model_run1.joblib
+
+# ---------- MATLAB 产物 ----------
+*.asv
+*.autosave
+octave-workspace
+Diary
+diary
+*.m~
+
+# ---------- C 编译产物 ----------
+*.o
+*.obj
+*.exe
+*.out
+*.elf
+*.hex
+*.bin
+.idea/
+.vscode/
+cmake-build-debug/
+cmake-build-release/
+build/
+Debug/
+Release/
+
+# ---------- 版本控制残留 ----------
+.svn/
+.hg/
+*.orig
+
+# ---------- 系统 ----------
+.DS_Store
+Thumbs.db
+desktop.ini
